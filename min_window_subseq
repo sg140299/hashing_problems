@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    string a,b;
+    cin>>a>>b;
+    int len1=a.size();
+    int len2=b.size();
+    if(len1<len2){
+        cout<<"No Window";
+    }
+    else{
+        int hash_str[256]={0};
+        int hash_pat[256]={0};
+        for(int i=0;i<len2;i++)hash_pat[b[i]]+=1;
+        int count=0;
+        int start=0,start_index=-1,min_len=INT_MAX;
+        for(int i=0;i<len1;i++){
+            hash_str[a[i]]+=1;
+            if(hash_pat[a[i]]!=0 && hash_str[a[i]]<=hash_pat[a[i]]){
+                count+=1;
+            }
+            if(count==len2){
+                while(hash_str[a[start]]>hash_pat[a[start]] ||  hash_pat[a[start]]==0){
+                    if(hash_str[a[start]]>hash_pat[a[start]]){
+                        hash_str[a[start]]-=1;
+                    }
+                    start+=1;
+                }
+                int len_window=i-start+1;
+                if(len_window<min_len){min_len=len_window;start_index=start;}
+
+            }
+
+        }
+        for(int j=start_index;j<=start_index+min_len;j++)cout<<a[j]<<" ";
+        
+        //cout<<min_len;
+
+    }
+    return 0;
+}
